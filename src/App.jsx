@@ -8,23 +8,26 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: [],
-      id: '172764c-1ab1-11ea-b9fe-2f5417770f',
+      id: '17264ec6',
       username: '',
       review_title:'',
       review: '',
       rating: null,
-      query: `http://localhost:3003/reviews/172764c-1ab1-11ea-b9fe-2f5417770f`,
+      query: `17264ec6`,
       selection: [1, 2, 3, 4, 5]
     }
   }
 
   componentDidMount() {
-    //console.log(this.state.query)
-    this.getReviews();
+    window.addEventListener('query',(e) => {
+      this.setState({query: e.detail})
+      this.getReviews(this.state.query)
+    })
+    this.getReviews(this.state.query);
   }
 
-  getReviews() {
-    axios.get(this.state.query)
+  getReviews(query) {
+    axios.get(`http://localhost:3002/reviews/${query}`)
     .then(({data}) => {
       this.setState({data: data.reverse()});
       console.log(this.state.data)
@@ -51,9 +54,9 @@ class App extends React.Component {
     console.log(e.target.value)
   }
 
-  handleClick(e) {
-    axios.post(this.state.query, {
-      id: this.state.id,
+  handleClick(query) {
+    axios.post(`http://localhost:3002/reviews`, {
+      id: this.state.query,
       username: this.state.username,
       review_title: this.state.review_title,
       review: this.state.review,
@@ -70,8 +73,8 @@ class App extends React.Component {
   render(){
     return (
       <div className='reviews_module' id='wrap-collapsible'>
-        <input id="collapsible" className="toggle" type="checkbox"/>
-        <label htmlFor="collapsible" className="lbl-toggle">Reviews</label>
+        <input id="collapsible2" className="toggle" type="checkbox"/>
+        <label htmlFor="collapsible2" className="lbl-toggle" tabIndex='0'>Reviews</label>
         <ul className='collapsible-content'>
           <div className='user_inputs'>
             <div>

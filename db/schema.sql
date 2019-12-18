@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS reviews;
+
 CREATE DATABASE reviews;
 
 USE reviews;
